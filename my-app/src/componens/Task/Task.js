@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
-import { enAU } from 'date-fns/locale'
+import KG from 'date-fns/locale/en-AU';
 
 const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
   const [editing, setEditing] = useState(false)
@@ -14,7 +14,7 @@ const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
         setTimeAgo(
           formatDistanceToNow(todo.date, {
             includeSeconds: true,
-            locale: enAU,
+            locale: KG,
             addSuffix: true,
           })
         )

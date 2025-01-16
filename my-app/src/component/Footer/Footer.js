@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import TasksFilter from '../TaskFilter/TaskFilter'
 
 const Footer = ({ taskCount, onClearCompleted, onFilterChange, selectedFilter }) => {
+  
   return (
     <footer className="footer">
       <span className="todo-count">{taskCount} items left</span>

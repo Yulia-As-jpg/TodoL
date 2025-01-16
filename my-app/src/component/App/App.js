@@ -30,12 +30,15 @@ const App = () => {
     setTasks(tasks.filter((task) => !task.checked))
   }
 
+
   const filteredTasks = tasks.filter((task) => {
-    if (filter === 'All') return true
-    if (filter === 'Active') return !task.checked
-    if (filter === 'Completed') return task.checked
-    return true
+     if (filter === 'All') return true
+     if (filter === 'Active') return !task.checked
+     if (filter === 'Completed') return task.checked
+     return true
   })
+  
+  const activeTaskCount = tasks.filter(task => !task.checked).length;
 
   return (
     <section className="todoapp">
@@ -48,7 +51,7 @@ const App = () => {
           onDeleteTask={deleteTask}
         />
         <Footer
-          taskCount={filteredTasks.length}
+          taskCount={activeTaskCount}
           onClearCompleted={clearCompleted}
           onFilterChange={setFilter}
           selectedFilter={filter}

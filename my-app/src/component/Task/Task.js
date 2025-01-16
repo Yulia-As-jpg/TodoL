@@ -29,7 +29,7 @@ const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    editItem(todo.id, value)
+    editItem(todo.id)
     setValue('')
     setEditing(false)
   }

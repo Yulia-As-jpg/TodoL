@@ -5,7 +5,7 @@ import { enUS } from 'date-fns/locale';
 
 const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
   const [editing, setEditing] = useState(false)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(todo.body)
   const [timeAgo, setTimeAgo] = useState('')
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    editItem(todo.id)
+    editItem(todo.id, value)
     setValue('')
     setEditing(false)
   }

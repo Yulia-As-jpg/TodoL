@@ -4,11 +4,11 @@ import { formatDistanceToNow } from 'date-fns'
 import { enUS } from 'date-fns/locale';
 
 const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
-  const [editing, setEditing] = useState(false)
-  const [value, setValue] = useState(todo.body)
-  const [timeAgo, setTimeAgo] = useState('')
+  const [editing, setEditing] = useState(false) 
+  const [value, setValue] = useState(todo.body) 
+  const [timeAgo, setTimeAgo] = useState('') 
 
-  useEffect(() => {
+  useEffect(() => { 
     if (todo && todo.date) {
       const updateTimeAgo = () => {
         setTimeAgo(
@@ -27,7 +27,7 @@ const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
     }
   }, [todo])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event) => { 
     event.preventDefault()
     editItem(todo.id, value)
     setValue('')
@@ -35,6 +35,8 @@ const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
   }
 
   const { body, id, checked } = todo
+
+  
 
   return (
     <li className={checked ? 'completed' : editing ? 'editing' : null}>

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
+
+import TaskTimer from '../taskTimer/taskTimer'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
-import { enUS } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale'
 
-const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
-  const [editing, setEditing] = useState(false) 
-  const [value, setValue] = useState(todo.body) 
-  const [timeAgo, setTimeAgo] = useState('') 
+const Task = ({ todo, changeCheck, deleteItem, editItem, updateTimer }) => {
+  const [editing, setEditing] = useState(false)
+  const [value, setValue] = useState(todo.body)
+  const [timeAgo, setTimeAgo] = useState('')
+  const [isTimerRunning, setIsTimerRunning] = useState(todo.isTimerRunning)
 
-  useEffect(() => { 
+  useEffect(() => {
     if (todo && todo.date) {
       const updateTimeAgo = () => {
         setTimeAgo(
@@ -27,16 +30,20 @@ const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
     }
   }, [todo])
 
-  const handleSubmit = (event) => { 
+  useEffect(() => {
+    if (todo.checked) {
+      setIsTimerRunning(false)
+    }
+  }, [todo.checked])
+
+  const handleSubmit = (event) => {
     event.preventDefault()
     editItem(todo.id, value)
-    setValue('')
+    setValue(todo.body)
     setEditing(false)
   }
 
   const { body, id, checked } = todo
-
-  
 
   return (
     <li className={checked ? 'completed' : editing ? 'editing' : null}>
@@ -49,15 +56,27 @@ const Task = ({ todo, changeCheck, deleteItem, editItem }) => {
           checked={checked}
         />
         <label htmlFor={id}>
-          <span className="description">{body}</span>
-          <span className="created">{`created ${timeAgo}`}</span>
+          <span className="title">{body}</span>
+          <span className="description">
+            <TaskTimer
+              isRunning={isTimerRunning}
+              onToggle={setIsTimerRunning}
+              elapsedTime={todo.elapsedTime}
+              updateElapsedTime={(newElapsedTime) => updateTimer(id, isTimerRunning, newElapsedTime)}
+            />
+            {`created ${timeAgo}`}
+          </span>
         </label>
         <button type="button" onClick={() => setEditing((prevEditing) => !prevEditing)} className="icon icon-edit" />
         <button type="button" onClick={() => deleteItem(id)} className="icon icon-destroy" />
       </div>
       {editing && (
         <form onSubmit={handleSubmit}>
-          <input onChange={(event) => setValue(event.target.value)} type="text" className="edit" value={value} />
+          <input onChange={(event) => setValue(event.target.value)} 
+          type="text" 
+          className="edit" 
+          value={value}
+          />
         </form>
       )}
     </li>
@@ -70,10 +89,13 @@ Task.propTypes = {
     body: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
+    isTimerRunning: PropTypes.bool.isRequired,
+    elapsedTime: PropTypes.number.isRequired,
   }).isRequired,
   deleteItem: PropTypes.func.isRequired,
   changeCheck: PropTypes.func.isRequired,
   editItem: PropTypes.func.isRequired,
+  updateTimer: PropTypes.func.isRequired,
 }
 
 export default Task

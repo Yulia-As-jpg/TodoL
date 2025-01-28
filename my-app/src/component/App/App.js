@@ -8,13 +8,20 @@ const App = () => {
   const [nextId, setNextId] = useState(1)
   const [filter, setFilter] = useState('All')
 
-  const addTask = (description) => { 
-    const newTask = { id: nextId, body: description, checked: false, date: new Date(), isEditing: false }
+  const addTask = (description) => {
+    const newTask = {
+      id: nextId,
+      body: description,
+      checked: false,
+      date: new Date(),
+      isTimerRunning: false,
+      elapsedTime: 0,
+    }
     setTasks([...tasks, newTask])
     setNextId(nextId + 1)
   }
 
-  const toggleComplete = (id) => { 
+  const toggleComplete = (id) => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, checked: !task.checked } : task)))
   }
 
@@ -22,34 +29,38 @@ const App = () => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, body: newDescription } : task)))
   }
 
-  const deleteTask = (id) => { 
+  const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id))
   }
 
-  const clearCompleted = () => { 
+  const clearCompleted = () => {
     setTasks(tasks.filter((task) => !task.checked))
   }
 
+  const updateTimer = (id, isRunning, elapsedTime) => {
+    setTasks(tasks.map((task) => (task.id === id ? { ...task, isTimerRunning: isRunning, elapsedTime } : task)))
+  }
 
-  const filteredTasks = tasks.filter((task) => { 
-     if (filter === 'All') return true
-     if (filter === 'Active') return !task.checked
-     if (filter === 'Completed') return task.checked
-     return true
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === 'All') return true
+    if (filter === 'Active') return !task.checked
+    if (filter === 'Completed') return task.checked
+    return true
   })
 
-  const activeTaskCount = tasks.filter(task => !task.checked).length;
+  const activeTaskCount = tasks.filter((task) => !task.checked).length
 
   return (
-    <section className="todoapp"> 
-      <NewTaskForm onAddTask={addTask} /> 
+    <section className="todoapp">
+      <NewTaskForm onAddTask={addTask} />
       <section className="main">
-        <TaskList  
+        <TaskList
           tasks={filteredTasks}
           onToggleComplete={toggleComplete}
           onEditTask={editTask}
           onDeleteTask={deleteTask}
-        /> 
+          updateTimer={updateTimer}
+        />
         <Footer
           taskCount={activeTaskCount}
           onClearCompleted={clearCompleted}

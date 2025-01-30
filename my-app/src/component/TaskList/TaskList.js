@@ -11,13 +11,13 @@ const TaskList = ({ tasks, onToggleComplete, onEditTask, onDeleteTask, updateTim
           todo={task}
           changeCheck={onToggleComplete}
           deleteItem={onDeleteTask}
-          editItem={onEditTask}
+          editTask={onEditTask}
           updateTimer={updateTimer}
         />
       ))}
     </ul>
-  )
-}
+  );
+};
 
 TaskList.propTypes = {
   tasks: PropTypes.arrayOf(
@@ -34,6 +34,7 @@ TaskList.propTypes = {
   onEditTask: PropTypes.func.isRequired,
   onDeleteTask: PropTypes.func.isRequired,
   updateTimer: PropTypes.func.isRequired,
-}
+};
+
 
 export default TaskList

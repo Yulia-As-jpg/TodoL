@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NewTaskForm from '../NewTaskForm/NewTaskForm'
 import TaskList from '../TaskList/TaskList'
 import Footer from '../Footer/Footer'
@@ -42,6 +42,23 @@ const App = () => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, isTimerRunning: isRunning, elapsedTime } : task)));
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTasks(prevTasks => prevTasks.map(task => {
+        if (task.isTimerRunning) {
+          const newElapsedTime = task.elapsedTime + 1000;
+          if (newElapsedTime >= task.initialTime) {
+            return { ...task, isTimerRunning: false, elapsedTime: task.initialTime };
+          }
+          return { ...task, elapsedTime: newElapsedTime };
+        }
+        return task;
+      }));
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, [tasks]);
+
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'All') return true;
     if (filter === 'Active') return !task.checked;
@@ -72,5 +89,7 @@ const App = () => {
     </section>
   );
 };
+
+
 
 export default App

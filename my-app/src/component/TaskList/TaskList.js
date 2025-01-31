@@ -11,7 +11,7 @@ const TaskList = ({ tasks, onToggleComplete, onEditTask, onDeleteTask, updateTim
           todo={task}
           changeCheck={onToggleComplete}
           deleteItem={onDeleteTask}
-          editTask={onEditTask}
+          editItem={onEditTask}
           updateTimer={updateTimer}
         />
       ))}
@@ -35,6 +35,5 @@ TaskList.propTypes = {
   onDeleteTask: PropTypes.func.isRequired,
   updateTimer: PropTypes.func.isRequired,
 };
-
 
 export default TaskList

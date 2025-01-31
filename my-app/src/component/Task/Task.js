@@ -5,8 +5,7 @@ import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 
-
-const Task = ({ todo, changeCheck, deleteItem, editTask, updateTimer }) => {
+const Task = ({ todo, changeCheck, deleteItem, editItem, updateTimer }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(todo.body);
   const [timeAgo, setTimeAgo] = useState('');
@@ -39,7 +38,7 @@ const Task = ({ todo, changeCheck, deleteItem, editTask, updateTimer }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    editTask(todo.id, value);
+    editItem(todo.id, value);
     setValue('');
     setEditing(false);
   };

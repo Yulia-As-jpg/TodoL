@@ -10,6 +10,10 @@ const TaskTimer = ({ isRunning, onToggle, elapsedTime, initialTime, updateElapse
 
       const updateTime = () => {
         timeRef.current = Date.now() - startTime;
+        if (initialTime && timeRef.current >= initialTime) {
+          timeRef.current = initialTime;
+          onToggle(false); // Останавливаем таймер
+        }
         updateElapsedTime(timeRef.current);
         intervalRef.current = requestAnimationFrame(updateTime);
       };
@@ -20,7 +24,7 @@ const TaskTimer = ({ isRunning, onToggle, elapsedTime, initialTime, updateElapse
     }
 
     return () => cancelAnimationFrame(intervalRef.current);
-  }, [isRunning, updateElapsedTime]);
+  }, [isRunning, updateElapsedTime, initialTime, onToggle]);
 
   const formatTime = (milliseconds) => {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -39,6 +43,5 @@ const TaskTimer = ({ isRunning, onToggle, elapsedTime, initialTime, updateElapse
     </>
   );
 };
-
 
 export default TaskTimer

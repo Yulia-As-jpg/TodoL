@@ -6,10 +6,10 @@ import { formatDistanceToNow } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 
 const Task = ({ todo, changeCheck, deleteItem, editItem, updateTimer }) => {
-  const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState(todo.body);
-  const [timeAgo, setTimeAgo] = useState('');
-  const isTimerRunningRef = useRef(todo.isTimerRunning);
+  const [editing, setEditing] = useState(false)
+  const [value, setValue] = useState(todo.body)
+  const [timeAgo, setTimeAgo] = useState('')
+  const isTimerRunningRef = useRef(todo.isTimerRunning)
 
   useEffect(() => {
     if (todo && todo.date) {
@@ -20,30 +20,30 @@ const Task = ({ todo, changeCheck, deleteItem, editItem, updateTimer }) => {
             locale: enUS,
             addSuffix: true,
           })
-        );
-      };
+        )
+      }
 
-      updateTimeAgo();
-      const interval = setInterval(updateTimeAgo, 1000);
+      updateTimeAgo()
+      const interval = setInterval(updateTimeAgo, 1000)
 
-      return () => clearInterval(interval);
+      return () => clearInterval(interval)
     }
-  }, [todo]);
+  }, [todo])
 
   useEffect(() => {
     if (todo.checked) {
-      isTimerRunningRef.current = false;
+      isTimerRunningRef.current = false
     }
-  }, [todo.checked]);
+  }, [todo.checked])
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    editItem(todo.id, value);
-    setValue('');
-    setEditing(false);
-  };
+    event.preventDefault()
+    editItem(todo.id, value)
+    setValue(value)
+    setEditing(false)
+  }
 
-  const { body, id, checked } = todo;
+  const { body, id, checked } = todo
 
   return (
     <li className={checked ? 'completed' : editing ? 'editing' : null}>
@@ -61,8 +61,8 @@ const Task = ({ todo, changeCheck, deleteItem, editItem, updateTimer }) => {
             <TaskTimer
               isRunning={isTimerRunningRef.current}
               onToggle={(isRunning) => {
-                isTimerRunningRef.current = isRunning;
-                updateTimer(id, isRunning, todo.elapsedTime);
+                isTimerRunningRef.current = isRunning
+                updateTimer(id, isRunning, todo.elapsedTime)
               }}
               elapsedTime={todo.elapsedTime}
               initialTime={todo.initialTime}
@@ -80,8 +80,8 @@ const Task = ({ todo, changeCheck, deleteItem, editItem, updateTimer }) => {
         </form>
       )}
     </li>
-  );
-};
+  )
+}
 
 Task.propTypes = {
   todo: PropTypes.shape({
@@ -96,8 +96,6 @@ Task.propTypes = {
   changeCheck: PropTypes.func.isRequired,
   editItem: PropTypes.func.isRequired,
   updateTimer: PropTypes.func.isRequired,
-};
-
-
+}
 
 export default Task

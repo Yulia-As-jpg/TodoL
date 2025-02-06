@@ -2,20 +2,20 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const NewTaskForm = ({ onAddTask }) => {
-  const [newTask, setNewTask] = useState('');
-  const [newTaskMin, setNewTaskMin] = useState('');
-  const [newTaskSec, setNewTaskSec] = useState('');
+  const [newTask, setNewTask] = useState('')
+  const [newTaskMin, setNewTaskMin] = useState('')
+  const [newTaskSec, setNewTaskSec] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (newTask.trim()) {
-      const initialTime = (parseInt(newTaskMin, 10) * 60 + parseInt(newTaskSec, 10)) * 1000;
-      onAddTask(newTask, initialTime);
-      setNewTask('');
-      setNewTaskMin('');
-      setNewTaskSec('');
+      const initialTime = (parseInt(newTaskMin, 10) * 60 + parseInt(newTaskSec, 10)) * 1000
+      onAddTask(newTask, initialTime)
+      setNewTask('')
+      setNewTaskMin('')
+      setNewTaskSec('')
     }
-  };
+  }
 
   return (
     <header className="header">
@@ -43,11 +43,11 @@ const NewTaskForm = ({ onAddTask }) => {
         <button type="submit"></button>
       </form>
     </header>
-  );
-};
+  )
+}
 
 NewTaskForm.propTypes = {
   onAddTask: PropTypes.func.isRequired,
-};
+}
 
 export default NewTaskForm
